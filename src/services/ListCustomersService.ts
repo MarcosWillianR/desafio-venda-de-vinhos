@@ -6,9 +6,9 @@ class CreateCustomerService {
   constructor(private customersRepository: ICustomersRepository) {}
 
   public async execute(): Promise<ICustomersDTO[]> {
-    const costumers = await this.customersRepository.findAllCustomers();
+    const customers = await this.customersRepository.findAllCustomers();
 
-    return costumers;
+    return customers;
   }
 }
 
