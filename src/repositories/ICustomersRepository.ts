@@ -3,6 +3,7 @@ import ICustomersPurchasesHistoryDTO from '../dtos/ICustomersPurchasesHistoryDTO
 import IFindCustomerByHighestLatestYearPurchaseDTO, {
   ICustomerResponse,
 } from '../dtos/IFindCustomerByHighestLatestYearPurchaseDTO';
+import ICustomerAndPurchaseHistoryDTO from '../dtos/ICustomerAndPurchaseHistoryDTO';
 
 export default interface ICustomersRepository {
   findAllCustomers(): Promise<ICustomersDTO[]>;
@@ -10,4 +11,5 @@ export default interface ICustomersRepository {
   findCustomerByHighestLatestYearPurchase(
     data: IFindCustomerByHighestLatestYearPurchaseDTO,
   ): Promise<ICustomerResponse[]>;
+  findCustomersAndPurchasesHistory(): Promise<ICustomerAndPurchaseHistoryDTO[]>;
 }

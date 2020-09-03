@@ -11,7 +11,7 @@ class FindCustomerWithHighestLatestYearPurchaseService {
 
   public async execute({
     actualYear,
-  }: IRequestDTO): Promise<ICustomerResponse> {
+  }: IRequestDTO): Promise<ICustomerResponse[]> {
     const customer = await this.customersRepository.findCustomerByHighestLatestYearPurchase(
       { actualYear },
     );

@@ -4,6 +4,7 @@ import CustomersRepository from '../repositories/CustomersRepository';
 
 import ListCustomersService from '../services/ListCustomersService';
 import FindCustomerWithHighestLatestYearPurchaseService from '../services/FindCustomerWithHighestLatestYearPurchaseService';
+import FindMostFaithfulCustomersService from '../services/FindMostFaithfulCustomersService';
 
 const customersRouter = Router();
 const customersRepository = new CustomersRepository();
@@ -20,20 +21,33 @@ customersRouter.get('/', async (req, res) => {
   }
 });
 
-// cliente com maior compra única no ultimo ano.
 customersRouter.get('/highest-purchase-year', async (req, res) => {
   try {
     const { actualYear } = req.query;
 
-    const findCustomer = new FindCustomerWithHighestLatestYearPurchaseService(
+    const findCustomers = new FindCustomerWithHighestLatestYearPurchaseService(
       customersRepository,
     );
 
-    const customer = await findCustomer.execute({
+    const customers = await findCustomers.execute({
       actualYear: Number(actualYear),
     });
 
-    return res.json(customer);
+    return res.json(customers);
+  } catch (err) {
+    return res.status(400).json({ error: err.message });
+  }
+});
+
+customersRouter.get('/most-faithful', async (req, res) => {
+  try {
+    const findFaithfulCustomers = new FindMostFaithfulCustomersService(
+      customersRepository,
+    );
+
+    const customers = await findFaithfulCustomers.execute();
+
+    return res.json(customers);
   } catch (err) {
     return res.status(400).json({ error: err.message });
   }

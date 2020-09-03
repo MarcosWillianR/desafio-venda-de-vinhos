@@ -3,9 +3,8 @@ import { subYears } from 'date-fns';
 import externalAPI from '../configs/axios';
 
 import ICustomersDTO from '../dtos/ICustomersDTO';
-import ICustomersPurchasesHistoryDTO, {
-  ICustomerHighestPurchaseInLatestYearDTO,
-} from '../dtos/ICustomersPurchasesHistoryDTO';
+import ICustomersPurchasesHistoryDTO from '../dtos/ICustomersPurchasesHistoryDTO';
+import ICustomerAndPurchaseHistoryDTO from '../dtos/ICustomerAndPurchaseHistoryDTO';
 import IFindCustomerByHighestLatestYearPurchaseDTO, {
   ICustomerResponse,
 } from '../dtos/IFindCustomerByHighestLatestYearPurchaseDTO';
@@ -163,6 +162,60 @@ class FakeCustomersRepository implements ICustomersRepository {
     });
 
     return highestYearPurchaseFormatted;
+  }
+
+  public async findCustomersAndPurchasesHistory(): Promise<
+    ICustomerAndPurchaseHistoryDTO[]
+  > {
+    const customers = await this.findAllCustomers();
+    const formattedcustomers = customers.map(customer => ({
+      ...customer,
+      cpf: customer.cpf.replace(/[^\d]/g, ''),
+    }));
+
+    const customersAndPurchaseHistory: ICustomerAndPurchaseHistoryDTO[] = [] as ICustomerAndPurchaseHistoryDTO[];
+
+    const customerPurchases = await this.findAllCustomersPurchasesHistory();
+
+    formattedcustomers.forEach(customer => {
+      const formattedClientPurchases = customerPurchases.map(
+        customerPurchase => {
+          const formattedClientCpf = customerPurchase.cliente.replace(
+            /[^\d]/g,
+            '',
+          );
+          const removeUnuselessClientCpfChars = formattedClientCpf.slice(
+            formattedClientCpf.length - 11,
+            formattedClientCpf.length,
+          );
+
+          return {
+            ...customerPurchase,
+            cliente: removeUnuselessClientCpfChars,
+          };
+        },
+      );
+      const filteredClientPurchaseByCPf = formattedClientPurchases.filter(
+        clientPurchase => clientPurchase.cliente === customer.cpf,
+      );
+
+      const { id, nome, cpf, valorTotal } = customer;
+
+      customersAndPurchaseHistory.push({
+        customer: {
+          id,
+          nome,
+          valorTotal,
+          cpf: cpfFormatter(cpf),
+        },
+        purchases: filteredClientPurchaseByCPf.map(clientPurchase => ({
+          ...clientPurchase,
+          cliente: cpfFormatter(clientPurchase.cliente),
+        })),
+      });
+    });
+
+    return customersAndPurchaseHistory;
   }
 }
 
