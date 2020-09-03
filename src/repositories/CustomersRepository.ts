@@ -195,6 +195,7 @@ class FakeCustomersRepository implements ICustomersRepository {
           };
         },
       );
+
       const filteredClientPurchaseByCPf = formattedClientPurchases.filter(
         clientPurchase => clientPurchase.cliente === customer.cpf,
       );

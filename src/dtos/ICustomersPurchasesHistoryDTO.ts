@@ -1,4 +1,4 @@
-interface ICustomersPurchasesHistoryItem {
+export interface ICustomersPurchasesHistoryItem {
   produto: string;
   variedade: string;
   pais: string;

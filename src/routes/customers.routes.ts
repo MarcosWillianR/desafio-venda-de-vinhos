@@ -5,6 +5,7 @@ import CustomersRepository from '../repositories/CustomersRepository';
 import ListCustomersService from '../services/ListCustomersService';
 import FindCustomerWithHighestLatestYearPurchaseService from '../services/FindCustomerWithHighestLatestYearPurchaseService';
 import FindMostFaithfulCustomersService from '../services/FindMostFaithfulCustomersService';
+import FindWineRecommendationsForCustomersService from '../services/FindWineRecommendationsForCustomersService';
 
 const customersRouter = Router();
 const customersRepository = new CustomersRepository();
@@ -48,6 +49,24 @@ customersRouter.get('/most-faithful', async (req, res) => {
     const customers = await findFaithfulCustomers.execute();
 
     return res.json(customers);
+  } catch (err) {
+    return res.status(400).json({ error: err.message });
+  }
+});
+
+customersRouter.get('/wines/recommendations', async (req, res) => {
+  try {
+    const { customerCpf } = req.query;
+
+    const wineRecommendations = new FindWineRecommendationsForCustomersService(
+      customersRepository,
+    );
+
+    const wines = await wineRecommendations.execute({
+      customerCpf: String(customerCpf),
+    });
+
+    return res.json(wines);
   } catch (err) {
     return res.status(400).json({ error: err.message });
   }
