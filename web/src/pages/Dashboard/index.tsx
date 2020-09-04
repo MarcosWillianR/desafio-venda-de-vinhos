@@ -3,14 +3,13 @@ import { FiLogOut } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 
 import AllCustomersList from '../../components/AllCustomersList';
-import CustomersHighestPurchasesYear from '../../components/CustomersHighestPurchasesYear';
+import CustomersHighestPurchasesYearList from '../../components/CustomersHighestPurchasesYearList';
+import MostFaithfulCustomersList from '../../components/MostFaithfulCustomersList';
 
 import { Container, MainContent, RenderListButton } from './styles';
 
 const Dashboard: React.FC = () => {
-  const [currentListType, setCurrentListType] = useState(
-    'customers-highest-purchases-year',
-  );
+  const [currentListType, setCurrentListType] = useState('most-faithful');
   const [currentList, setCurrentList] = useState(<AllCustomersList />);
 
   useEffect(() => {
@@ -22,7 +21,11 @@ const Dashboard: React.FC = () => {
         break;
       }
       case 'customers-highest-purchases-year': {
-        renderComponent = <CustomersHighestPurchasesYear />;
+        renderComponent = <CustomersHighestPurchasesYearList />;
+        break;
+      }
+      case 'most-faithful': {
+        renderComponent = <MostFaithfulCustomersList />;
         break;
       }
       default:
@@ -59,14 +62,17 @@ const Dashboard: React.FC = () => {
                 type="button"
                 active={currentListType === 'customers-highest-purchases-year'}
                 onClick={() =>
-                  handleSetCurrentListType('customers-highest-purchases-year')
-                }
+                  handleSetCurrentListType('customers-highest-purchases-year')}
               >
                 clientes com maiores compras
               </RenderListButton>
             </li>
             <li>
-              <RenderListButton type="button" active={false}>
+              <RenderListButton
+                type="button"
+                active={currentListType === 'most-faithful'}
+                onClick={() => handleSetCurrentListType('most-faithful')}
+              >
                 clientes fiéis
               </RenderListButton>
             </li>

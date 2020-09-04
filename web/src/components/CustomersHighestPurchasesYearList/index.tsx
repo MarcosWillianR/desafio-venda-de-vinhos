@@ -11,7 +11,7 @@ import {
   Loading,
 } from './styles';
 
-interface CustomersHighestPurchasesYearState {
+interface CustomersHighestPurchasesYearListState {
   customer: {
     cpf: string;
     nome: string;
@@ -25,8 +25,10 @@ interface CustomersHighestPurchasesYearState {
   };
 }
 
-const CustomersHighestPurchasesYear: React.FC = () => {
-  const [list, setList] = useState<CustomersHighestPurchasesYearState[]>([]);
+const CustomersHighestPurchasesYearList: React.FC = () => {
+  const [list, setList] = useState<CustomersHighestPurchasesYearListState[]>(
+    [],
+  );
 
   useEffect(() => {
     api
@@ -68,4 +70,4 @@ const CustomersHighestPurchasesYear: React.FC = () => {
   );
 };
 
-export default CustomersHighestPurchasesYear;
+export default CustomersHighestPurchasesYearList;
