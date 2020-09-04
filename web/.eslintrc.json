@@ -29,6 +29,9 @@
         "prettier"
     ],
     "rules": {
+      "operator-linebreak": "off",
+      "arrow-parens": [2, "as-needed"],
+      "react/prop-types": "off",
       "prettier/prettier": "error",
       "react-hooks/rules-of-hooks": "error",
       "react-hooks/exhaustive-deps": "warn",

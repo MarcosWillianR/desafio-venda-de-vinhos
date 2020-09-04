@@ -76,7 +76,7 @@ export const LeftContentContainer = styled.div`
     }
   }
 
-  button {
+  > a {
     display: none;
     width: 250px;
 
@@ -86,6 +86,8 @@ export const LeftContentContainer = styled.div`
     background: #db4461;
 
     color: #fff;
+    text-align: center;
+    text-decoration: none;
     text-transform: uppercase;
 
     font-weight: 700;
@@ -186,7 +188,7 @@ export const RightContentContainer = styled.div`
     line-height: 1.5;
   }
 
-  button {
+  a {
     width: 250px;
     margin-top: 60px;
 
@@ -196,6 +198,8 @@ export const RightContentContainer = styled.div`
     background: #3a3a59;
 
     color: #fff;
+    text-align: center;
+    text-decoration: none;
     text-transform: uppercase;
 
     font-weight: 700;

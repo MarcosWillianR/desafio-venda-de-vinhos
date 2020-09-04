@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { FiLinkedin } from 'react-icons/fi';
 
 import wineBottle from '../../assets/wine-bottle.png';
@@ -23,7 +24,7 @@ const SignIn: React.FC = () => (
           Login
         </h1>
 
-        <button type="button">Entrar agora</button>
+        <Link to="/dashboard">Entrar agora</Link>
 
         <Footer>
           <p>Vamos nos conectar?</p>
@@ -57,7 +58,7 @@ const SignIn: React.FC = () => (
           suficiente para garantir vinhos complexos e bem estruturados.
         </p>
 
-        <button type="button">Entrar agora</button>
+        <Link to="/dashboard">Entrar agora</Link>
       </RightContentContainer>
     </MainContent>
   </Container>
