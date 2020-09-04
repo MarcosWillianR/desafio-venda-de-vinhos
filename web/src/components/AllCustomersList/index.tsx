@@ -11,7 +11,7 @@ import {
   Loading,
 } from './styles';
 
-interface CustomersListProps {
+interface CustomersListState {
   id: number;
   nome: string;
   cpf: string;
@@ -19,7 +19,7 @@ interface CustomersListProps {
 }
 
 const AllCustomersList: React.FC = () => {
-  const [list, setList] = useState<CustomersListProps[]>([]);
+  const [list, setList] = useState<CustomersListState[]>([]);
 
   useEffect(() => {
     api.get('customers').then(({ data: listData }) => setList(listData));

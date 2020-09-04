@@ -1,36 +1,44 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { FiLogOut } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 
 import AllCustomersList from '../../components/AllCustomersList';
+import CustomersHighestPurchasesYear from '../../components/CustomersHighestPurchasesYear';
 
-import {
-  Container,
-  MainContent,
-  RenderListButton,
-  MainContentList,
-  MainContentListItem,
-} from './styles';
+import { Container, MainContent, RenderListButton } from './styles';
 
 const Dashboard: React.FC = () => {
-  const [currentList, setCurrentList] = useState('all-customers');
-  const [currentRenderList, setCurrentRenderList] = useState(
-    <AllCustomersList />,
+  const [currentListType, setCurrentListType] = useState(
+    'customers-highest-purchases-year',
   );
+  const [currentList, setCurrentList] = useState(<AllCustomersList />);
 
   useEffect(() => {
     let renderComponent = <AllCustomersList />;
 
-    switch (currentList) {
+    switch (currentListType) {
       case 'all-customers': {
         renderComponent = <AllCustomersList />;
+        break;
+      }
+      case 'customers-highest-purchases-year': {
+        renderComponent = <CustomersHighestPurchasesYear />;
         break;
       }
       default:
     }
 
-    setCurrentRenderList(renderComponent);
-  }, [currentList]);
+    setCurrentList(renderComponent);
+  }, [currentListType]);
+
+  const handleSetCurrentListType = useCallback(
+    listType => {
+      if (listType !== currentListType) {
+        setCurrentListType(listType);
+      }
+    },
+    [currentListType],
+  );
 
   return (
     <Container>
@@ -40,13 +48,20 @@ const Dashboard: React.FC = () => {
             <li>
               <RenderListButton
                 type="button"
-                active={currentList === 'all-customers'}
+                active={currentListType === 'all-customers'}
+                onClick={() => handleSetCurrentListType('all-customers')}
               >
                 todos os clientes
               </RenderListButton>
             </li>
             <li>
-              <RenderListButton type="button" active={false}>
+              <RenderListButton
+                type="button"
+                active={currentListType === 'customers-highest-purchases-year'}
+                onClick={() =>
+                  handleSetCurrentListType('customers-highest-purchases-year')
+                }
+              >
                 clientes com maiores compras
               </RenderListButton>
             </li>
@@ -67,19 +82,7 @@ const Dashboard: React.FC = () => {
           </Link>
         </header>
 
-        {currentRenderList}
-
-        {/* <MainContentList>
-          <strong>Nome</strong>
-          <strong>cpf</strong>
-          <strong>Valor total em compras</strong>
-
-          <MainContentListItem>
-            <span>Jonathan</span>
-            <span>000.000.000-08</span>
-            <span>{priceFormatter(3190.7000000000003)}</span>
-          </MainContentListItem>
-        </MainContentList> */}
+        {currentList}
       </MainContent>
     </Container>
   );

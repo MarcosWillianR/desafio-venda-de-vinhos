@@ -29,6 +29,7 @@
         "prettier"
     ],
     "rules": {
+      "implicit-arrow-linebreak": "off",
       "operator-linebreak": "off",
       "arrow-parens": [2, "as-needed"],
       "react/prop-types": "off",
