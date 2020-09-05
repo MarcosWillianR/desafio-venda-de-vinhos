@@ -68,7 +68,7 @@ const Dashboard: React.FC = () => {
     }
 
     setCurrentList(renderComponent);
-  }, []);
+  }, [handleSelectedYear, handleSelectedCustomer]);
 
   return (
     <Container>

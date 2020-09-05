@@ -104,13 +104,13 @@ export const CustomersList = styled.div`
   }
 
   display: grid;
-  grid-template-columns: repeat(3, minmax(100px, 1fr)) repeat(2, 1fr);
+  grid-template-columns: repeat(3, minmax(100px, 1fr)) minmax(300px, 1fr) 1fr;
 `;
 
 export const CustomersListItem = styled.div`
   grid-column: 1 / -1;
   display: grid;
-  grid-template-columns: repeat(3, minmax(100px, 1fr)) repeat(2, 1fr);
+  grid-template-columns: repeat(3, minmax(100px, 1fr)) minmax(300px, 1fr) 1fr;
   align-items: center;
   height: 56px;
 

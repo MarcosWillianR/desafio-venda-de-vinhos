@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { uuid } from 'uuidv4';
 
 import api from '../../services/apiClient';
 
@@ -33,12 +34,12 @@ const MostFaithfulCustmersList: React.FC = () => {
 
         {list.length > 0 &&
           list.map(customer => (
-            <CustomersListItem key={customer.cpf}>
+            <CustomersListItem key={uuid()}>
               <span>{customer.nome}</span>
               <span>{customer.cpf}</span>
               <div>
                 {customer.purchasesHistory.map(data => (
-                  <span>{data}</span>
+                  <span key={data}>{data}</span>
                 ))}
               </div>
             </CustomersListItem>

@@ -33,7 +33,7 @@ const SignIn: React.FC = () => (
           <a
             href="https://www.linkedin.com/in/marcos-willian-977311188/"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
           >
             <FiLinkedin />
           </a>

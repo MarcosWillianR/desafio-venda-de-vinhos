@@ -84,7 +84,7 @@ const Select: React.FC<SelectProps> = ({
             <select onChange={handleSelectCustomer}>
               {options.length > 0 &&
                 options.map(({ label, value }) => (
-                  <option value={value}>{label}</option>
+                  <option key={value} value={value}>{label}</option>
                 ))}
             </select>
             <FiChevronDown />

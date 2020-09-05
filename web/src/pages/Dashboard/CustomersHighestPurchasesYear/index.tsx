@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FiLogOut, FiChevronLeft } from 'react-icons/fi';
 import { useHistory, Link, useParams } from 'react-router-dom';
+import { uuid } from 'uuidv4';
 
 import api from '../../../services/apiClient';
 
@@ -35,7 +36,7 @@ interface ParamsProps {
 }
 
 const CustomersHighestPurchasesYear: React.FC = () => {
-  const [selectedYear, setSelectedYear] = useState('');
+  const [selectedYear, setSelectedYear] = useState<number>();
   const { goBack } = useHistory();
   const params: ParamsProps = useParams();
 
@@ -45,19 +46,19 @@ const CustomersHighestPurchasesYear: React.FC = () => {
 
   useEffect(() => {
     if (params.year) {
-      setSelectedYear(params.year);
+      setSelectedYear(Number(params.year) - 1);
 
       api
         .get('customers/highest-purchase-year', {
           params: {
-            actualYear: String(params.year),
+            actualYear: params.year,
           },
         })
         .then(({ data: listData }) => {
           setList(listData);
         });
     }
-  }, []);
+  }, [params.year]);
 
   return (
     <Container>
@@ -83,7 +84,7 @@ const CustomersHighestPurchasesYear: React.FC = () => {
 
         {list.length > 0 &&
           list.map(({ customer, purchase }) => (
-            <CustomersListItem key={customer.cpf}>
+            <CustomersListItem key={uuid()}>
               <span>{customer.nome}</span>
               <span>{customer.cpf}</span>
               <span>{purchase.data}</span>
