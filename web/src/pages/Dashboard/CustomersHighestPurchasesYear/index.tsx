@@ -39,6 +39,7 @@ const CustomersHighestPurchasesYear: React.FC = () => {
   const [selectedYear, setSelectedYear] = useState<number>();
   const { goBack } = useHistory();
   const params: ParamsProps = useParams();
+  const [loading, setLoading] = useState(false);
 
   const [list, setList] = useState<CustomersHighestPurchasesYearListState[]>(
     [],
@@ -46,6 +47,7 @@ const CustomersHighestPurchasesYear: React.FC = () => {
 
   useEffect(() => {
     if (params.year) {
+      setLoading(true);
       setSelectedYear(Number(params.year) - 1);
 
       api
@@ -56,6 +58,8 @@ const CustomersHighestPurchasesYear: React.FC = () => {
         })
         .then(({ data: listData }) => {
           setList(listData);
+        }).finally(() => {
+          setLoading(false);
         });
     }
   }, [params.year]);
@@ -95,7 +99,7 @@ const CustomersHighestPurchasesYear: React.FC = () => {
       </CustomersList>
 
 
-        {list.length <= 0 && (
+        {loading && (
           <LoadingContainer>
             <Loading />
           </LoadingContainer>
