@@ -19,7 +19,9 @@ interface SelectOption {
 interface SelectProps {
   customOptions?: SelectOption[];
   selectCustomers?: boolean;
+  informativeText?: string;
   actionText: string;
+  selectTitle: string;
   handleActionFunction(optionValue: string): void;
 }
 
@@ -32,10 +34,12 @@ const Select: React.FC<SelectProps> = ({
   customOptions,
   selectCustomers,
   actionText,
+  informativeText,
+  selectTitle,
   handleActionFunction,
 }) => {
   const [selectedOption, setSelectedOption] = useState('');
-  const [options, setOptions] = useState<SelectOption[]>(customOptions || []);
+  const [options, setOptions] = useState<SelectOption[]>([]);
 
   const handleSelectCustomer = useCallback(
     ({ target }) => {
@@ -48,27 +52,36 @@ const Select: React.FC<SelectProps> = ({
 
   useEffect(() => {
     if (selectCustomers) {
+      setOptions([]);
+
+      console.log(selectCustomers);
+
       api.get<CustomerResponse[]>('customers').then(({ data: customers }) => {
-        setOptions(
-          customers.map(({ nome, cpf }) => ({ label: nome, value: cpf })),
-        );
-      });
+          setOptions(state => {
+            if (state.length <= 0) {
+              return customers.map(({ nome, cpf }) => ({ label: nome, value: cpf }));
+            } else {
+              return state;
+            }
+          });
+        })
+      };
+
+    if (customOptions && customOptions.length > 0) {
+      setOptions(customOptions);
     }
-  }, [selectCustomers]);
+  }, [selectCustomers, customOptions]);
 
   return (
     <Container>
       <div>
-        <h1>Selecione o cliente</h1>
+        <h1>{selectTitle}</h1>
+
+        {informativeText && <small>{informativeText}</small>}
 
         {options.length > 0 ? (
           <SelectWrapper>
             <select onChange={handleSelectCustomer}>
-              {customOptions &&
-                customOptions.map(({ label, value }) => (
-                  <option value={value}>{label}</option>
-                ))}
-
               {options.length > 0 &&
                 options.map(({ label, value }) => (
                   <option value={value}>{label}</option>

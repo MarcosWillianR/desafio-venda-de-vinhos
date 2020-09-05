@@ -17,6 +17,17 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  h1 {
+    text-align: center;
+  }
+
+  small {
+    display: block;
+    text-align: center;
+    font-size: 10px;
+    margin-top: 12px;
+  }
 `;
 
 export const SelectButton = styled.button`
